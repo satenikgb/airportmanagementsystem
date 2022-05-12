@@ -2,19 +2,21 @@ package Dao;
 
 import Model.Company;
 import org.hibernate.SessionFactory;
+import org.hibernate.mapping.List;
 
 import java.util.Set;
 
 public interface CompanyDao {
-    Company getById(long Id, SessionFactory factory);
+    void getById(Company company,int Id);
 
-    void getAll();
+   void getAll(Company company) ;
+
 
     Set<Company> get(int offsset, int perPage, String sort);
 
     void save(Company company) ;
 
-    void update(Company company, long Id) ;
+    void update(Company company, int Id) ;
 
-    void delete(long companyId) ;
+    void delete(int companyId) ;
 }

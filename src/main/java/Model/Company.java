@@ -3,14 +3,14 @@ package Model;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "company")
-public class Company {
+public class Company extends Base {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
     @Column(name = "company_name",length = 30,nullable = false)
     private String companyName;
     @Column(name = "founding_date", length = 40,nullable = false)
@@ -28,8 +28,8 @@ public class Company {
     public String toString() {
         return "Company{" +
                 "companyName='" + companyName + '\'' +
-                ", foundingDate='" + foundingDate + '\'' +
-                '}';
+                ", foundingDate='" + foundingDate  +
+                '}'+'\n';
     }
 
     public Company(String companyName, String foundingDate, int id) {
@@ -58,11 +58,11 @@ public class Company {
         this.foundingDate = foundingDate;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 }

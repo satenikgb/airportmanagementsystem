@@ -7,16 +7,17 @@ import java.util.Set;
 
 @Entity
 @Table(name = "pass_in_trip")
-public class PassInTrip implements Serializable{
+public class PassInTrip extends Base implements Serializable {
     @Id
     @Column(name = "passenger_id", nullable = false)
-    private Long passengerId;
+    private int passengerId;
 
     @Id
-    @Column(name = "trip_id", nullable = false)
-    private Long tripId;
 
-    public PassInTrip(){
+    @Column(name = "trip_id", nullable = false)
+    private int tripId;
+
+    public PassInTrip() {
     }
 
 
@@ -25,7 +26,6 @@ public class PassInTrip implements Serializable{
 
     @Column(name = "place", nullable = false, length = 50)
     private String place;
-
 
 
     public String getDate() {
@@ -44,23 +44,21 @@ public class PassInTrip implements Serializable{
         this.place = place;
     }
 
-    public Long getPassengerId() {
+    public int getPassengerId() {
         return passengerId;
     }
 
-    public void setPassengerId(Long passengerId) {
+    public void setPassengerId(int passengerId) {
         this.passengerId = passengerId;
     }
 
-    public Long getTripId() {
+    public int getTripId() {
         return tripId;
     }
 
-    public void setTripId(Long tripId) {
+    public void setTripId(int tripId) {
         this.tripId = tripId;
     }
-
-
 
 
 }

@@ -1,5 +1,6 @@
 package Service;
 
+import Dao.impl.TripDaoImpl;
 import Model.Address;
 import Model.Company;
 import Model.Passenger;
@@ -13,7 +14,8 @@ import java.io.IOException;
 import java.util.Set;
 
 public class TripService {
-    public static void addTripData(SessionFactory sessionFactory) {
+    public static void addTripData() {
+        TripDaoImpl tripDao=new TripDaoImpl();
         Trip trip = new Trip();
         String[] array;
         String line;
@@ -28,9 +30,10 @@ public class TripService {
                 line = line.replace("'", "");
                 array = line.split(",");
 
-                trip.setTripNumber(Long.parseLong(array[0]));
-
-
+                Company company=new Company();
+                company.setId(Integer.parseInt(array[1]));
+                trip.setId(Integer.parseInt(array[0]));
+                trip.setCompany(company);
                 trip.setPlane(array[2]);
                 trip.setTownTo(array[3]);
                 trip.setTownFrom(array[4]);
@@ -39,7 +42,7 @@ public class TripService {
 
 
 
-                addTrip(trip, sessionFactory);
+                tripDao.save(trip);
 
             }
             try {
@@ -54,13 +57,5 @@ public class TripService {
         }
     }
 
-    public static void addTrip(Trip trip, SessionFactory factory) {
-        Session session = factory.openSession();
-        session.beginTransaction();
-        session.save(trip);
-        session.getTransaction().commit();
-        session.close();
 
-
-    }
 }

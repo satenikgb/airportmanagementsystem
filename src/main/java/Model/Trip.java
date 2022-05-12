@@ -1,17 +1,15 @@
 package Model;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "trip")
-public class Trip {
+public class Trip extends Base{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @Column(name = "trip_number",nullable = false)
-    private long tripNumber;
 
+    private int id;
     @Column(name = "plane",length = 30)
     private String plane;
     @Column(name = "town_from",nullable = false)
@@ -26,18 +24,31 @@ public class Trip {
     @JoinColumn(name = "company_id", foreignKey = @ForeignKey(name = "company_trip_fk"))
     private Company company;
     @ManyToMany(mappedBy = "trips")
-    private Set<Passenger> passengers;
+    private Set<Passenger> passengers=new HashSet<>();
 
+    public Company getCompany() {
+        return company;
+    }
 
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public Set<Passenger> getPassengers() {
+        return passengers;
+    }
+
+    public void setPassengers(Set<Passenger> passengers) {
+        this.passengers = passengers;
+    }
 
     public Trip(){
 
     }
 
-    public Trip(int id, long tripNumber,  String plane, String townFrom,
+    public Trip(String plane, String townFrom,
                 String townTo, String timeOut, String timeIn) {
-        this.id = id;
-        this.tripNumber = tripNumber;
+
         this.plane = plane;
         this.townFrom = townFrom;
         this.townTo = townTo;
@@ -54,13 +65,7 @@ public class Trip {
         this.id = id;
     }
 
-    public long getTripNumber() {
-        return tripNumber;
-    }
 
-    public void setTripNumber(long tripNumber) {
-        this.tripNumber = tripNumber;
-    }
 
 
     public String getPlane() {
@@ -103,6 +108,16 @@ public class Trip {
         this.timeIn = timeIn;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Trip{" +
+                "plane='" + plane + '\'' +
+                ", townFrom='" + townFrom + '\'' +
+                ", townTo='" + townTo + '\'' +
+                ", timeOut='" + timeOut + '\'' +
+                ", timeIn='" + timeIn + '\'' +
+                ", company=" + company +
+                ", passengers=" + passengers +
+                '}';
+    }
 }

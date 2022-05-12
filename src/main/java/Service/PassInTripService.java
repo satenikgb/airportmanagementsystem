@@ -1,20 +1,19 @@
 package Service;
 
+import Connection.FactorySingleton;
 import Model.PassInTrip;
-import Model.Trip;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
 public class PassInTripService {
-    public static void addPassInTripData(SessionFactory sessionFactory) {
+    public static void addPassInTripData() {
         PassInTrip passInTrip = new PassInTrip();
         String[] array;
         String line;
-        try (BufferedReader br = new BufferedReader(new FileReader("src/main/java/Resources/trip1.txt"))
+        try (BufferedReader br = new BufferedReader(new FileReader("src/main/java/Resources/passintrip.txt"))
         ) {
             while (true) {
                 try {
@@ -25,12 +24,12 @@ public class PassInTripService {
                 line = line.replace("'", "");
                 array = line.split(",");
 
-                passInTrip.setTripId(Long.parseLong(array[0]));
-                passInTrip.setPassengerId(Long.parseLong(array[1]));
+               passInTrip.setTripId(Integer.parseInt((array[0])));
+                passInTrip.setPassengerId(Integer.parseInt((array[1])));
                 passInTrip.setDate(array[2]);
                 passInTrip.setPlace(array[3]);
 
-               addPassInTrip(passInTrip,sessionFactory);
+               addPassInTrip(passInTrip);
 
             }
             try {
@@ -45,10 +44,10 @@ public class PassInTripService {
         }
     }
 
-    public static void addPassInTrip(PassInTrip passInTrip, SessionFactory factory) {
-        Session session = factory.openSession();
+    public static void addPassInTrip(PassInTrip passInTrip) {
+        Session session = FactorySingleton.getSessionFactory().openSession();
         session.beginTransaction();
-        session.save(passInTrip);
+        session.persist(passInTrip);
         session.getTransaction().commit();
         session.close();
 

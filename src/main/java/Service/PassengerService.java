@@ -1,20 +1,18 @@
 package Service;
 
-import Dao.impl.AddressDaoImpl;
+import Connection.FactorySingleton;
 import Model.Address;
 import Model.Passenger;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Set;
 
 public class PassengerService {
-    public static void addPassengerData(SessionFactory sessionFactory) {
-        Set<Address> addressSet1=AddressService.addAddressData(sessionFactory);
+    public static void addPassengerData() {
+        Set<Address> addressSet1=AddressService.addAddressData();
         Passenger passenger = new Passenger();
         String[] array;
         String line;
@@ -37,7 +35,8 @@ public class PassengerService {
                 for(Address address1:addressSet1){
                     if(address1.equals(address)){
                         passenger.setAddress(address1);
-                        addPassenger(passenger,sessionFactory);
+                        addPassenger(passenger);
+
                         break;
                     }
                 }
@@ -57,8 +56,8 @@ public class PassengerService {
         }
     }
 
-    public static  void addPassenger(Passenger passenger,SessionFactory factory){
-        Session session = factory.openSession();
+    public static  void addPassenger(Passenger passenger){
+        Session session = FactorySingleton.getSessionFactory().openSession();
         session.beginTransaction();
         session.save(passenger);
         session.getTransaction().commit();

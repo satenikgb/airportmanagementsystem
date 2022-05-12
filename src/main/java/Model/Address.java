@@ -9,7 +9,7 @@ import java.util.Set;
 @Entity
 @Table(name="Address")
 
-public class Address {
+public class Address extends Base{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -22,6 +22,7 @@ public class Address {
     public int hashCode() {
         return Objects.hash(country, city);
     }
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -82,4 +83,6 @@ public class Address {
         this.city = city;
 
     }
+
+
 }

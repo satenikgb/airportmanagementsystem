@@ -1,12 +1,13 @@
 package Model;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "passenger")
 
-public class Passenger {
+public class Passenger extends Base {
     @Id
     @GeneratedValue(strategy =GenerationType.IDENTITY)
     private int id;
@@ -15,15 +16,7 @@ public class Passenger {
     @Column(name = "phone",nullable = false,length = 50)
     private String phone;
 
-    @Override
-    public String toString() {
-        return "Passenger{" +
-                "name='" + name + '\'' +
-                ", phone='" + phone + '\'' +
-                '}';
-    }
-
-    @ManyToOne(fetch = FetchType.LAZY,cascade=CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.PERSIST)
     @JoinColumn(name = "id_address",
             foreignKey = @ForeignKey(name = "passenger_address_fk"))
     private Address address;
@@ -33,14 +26,13 @@ public class Passenger {
     joinColumns={@JoinColumn(name="passenger_id")},
             inverseJoinColumns = {@JoinColumn(name="trip_id")}
     )
-    private Set<Trip> trips;
+    private Set<Trip> trips=new HashSet<>();
 
 
-    public Passenger(String name, String phone, Address address, int id) {
+    public Passenger(String name, String phone) {
+
         this.name = name;
         this.phone = phone;
-        this.address = address;
-        this.id = id;
     }
 
     public Passenger() {
@@ -76,5 +68,14 @@ public class Passenger {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Passenger{" +
+                "name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", address=" + address +
+                '}'+'\n';
     }
 }

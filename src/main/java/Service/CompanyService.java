@@ -1,6 +1,7 @@
 package Service;
 
 import Dao.impl.AddressDaoImpl;
+import Dao.impl.CompanyDaoImpl;
 import Model.Address;
 import Model.Company;
 import Model.Passenger;
@@ -12,9 +13,11 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class CompanyService {
-    public static void addCompanyData(SessionFactory sessionFactory) {
+    public static void addCompanyData() {
+
 
         Company company = new Company();
+        CompanyDaoImpl companyDao=new CompanyDaoImpl();
         String[] array;
         String line;
         try (BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\User\\IdeaProjects\\AirportMS\\src" +
@@ -31,7 +34,7 @@ public class CompanyService {
 
                 company.setCompanyName(array[0]);
                 company.setFoundingDate(array[1]);
-                addCompany(company,sessionFactory);
+               companyDao.save(company);
 
 
 
@@ -41,8 +44,8 @@ public class CompanyService {
         }
 
     }
-    public static   void addCompany(Company company, SessionFactory factory){
-        Session session = factory.openSession();
+   /* public static   void addCompany(Company company){
+        Session session = FactorySingleton.getSessionFactory().openSession();
         session.beginTransaction();
         session.save(company);
         session.getTransaction().commit();
@@ -50,5 +53,7 @@ public class CompanyService {
 
 
     }
+
+    */
 
 }
